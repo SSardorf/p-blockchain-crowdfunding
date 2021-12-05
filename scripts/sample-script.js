@@ -14,7 +14,7 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Crowdfunding = await hre.ethers.getContractFactory("CrowdfundingProjects");
+  const Crowdfunding = await ethers.getContractFactory("CrowdfundingProjects");
   const crowdfunding = await Crowdfunding.deploy();
 
   await crowdfunding.deployed();
