@@ -9,8 +9,11 @@ function App() {
         setAllProjects(projects);
     }
     async function createProject(name, goal, deadline) {
+        //convert goal from wei to ether
+        const goalInEther = web3.utils.toWei(String(goal), "ether");
+        console.log(goalInEther);
         const newProject = await crowdfunding.methods
-            .createProject(name, deadline, goal)
+            .createProject(name, deadline, goalInEther)
             .send({ from: account });
         getAllProjects();
     }
@@ -21,23 +24,27 @@ function App() {
         const network = await web3.eth.net.getNetworkType();
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
-        console.log(network);
-        console.log(accounts);
         const crowdfunding = new web3.eth.Contract(
             CROWDFUNDING.abi,
             ADDRESS.crowdfunding
         );
         const allProjects = await crowdfunding.methods.getArr().call();
-        console.log(account);
         setAccount(account);
-        setAllProjects(allProjects);
         setCrowdfunding(crowdfunding);
+        setWeb3(web3);
+        setAllProjects(allProjects);
         return account, allProjects;
     }
 
-    function convertUnixToDate(deadline) {
-        var date = new Date(deadline * 1000)
-        var shortDate = String(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+    async function addDonation(project_index){
+        let donationAmount = prompt("Enter donation amount");
+        const newDonation = await crowdfunding.methods.newDonation(project_index).send({from: account, value: web3.utils.toWei(donationAmount, "ether")});
+        getAllProjects();
+    }
+
+    function convertUnixToDate(deadline){
+        var date = new Date(deadline*1000)
+        var shortDate = String(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());
         return shortDate;
     }
 
@@ -47,12 +54,13 @@ function App() {
     const [projectName, setProjectName] = useState("");
     const [fundingGoal, setFundingGoal] = useState("");
     const [deadline, setDeadline] = useState("");
+    const [web3, setWeb3] = useState("");
 
     useEffect(() => {
         // Update the document title using the browser API
         console.log(CROWDFUNDING.abi);
         console.log(ADDRESS.crowdfunding);
-        loadBlockchainData(setAccount, setAllProjects, setCrowdfunding);
+        loadBlockchainData();
     }, []);
 
     return (
@@ -65,13 +73,12 @@ function App() {
                         <div key={index} className="w-1/2 ">
                             <div className="bg-gray-100 text-grey-500 rounded m-4 p-4">
                                 <p className="">Creator: {project.creator}</p>
-                                <p>Project name: {project.projectName}</p>
-                                <p>Funding: {project.currentFunding}</p>
-                                <p>Goal: {project.fundingGoal}</p>
+                                <p>Projectname: {project.projectName}</p>
+                                <p>Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
+                                <p>Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
                                 <p>Deadline: {convertUnixToDate(project.deadline)}</p>
-                                <button className="bg-green-300 p-2 rounded-md">
-                                    Donate
-                                </button>
+                                {project.fundingGoal==project.currentFunding ? <button className="bg-gray-400 p-2 rounded-md "> FUNDED! </button> : <button onClick={()=>addDonation(index)} className="bg-green-400 p-2 rounded-md "> Donate! </button>}
+
                             </div>
                         </div>
                     );
