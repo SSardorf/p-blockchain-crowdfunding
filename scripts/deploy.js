@@ -1,3 +1,4 @@
+
 // This is a script for deploying your contracts. You can adapt it to deploy
 // yours, or create new ones.
 async function main() {
@@ -13,17 +14,18 @@ async function main() {
     // ethers is avaialble in the global scope
     const [deployer] = await ethers.getSigners();
     console.log(
-      "Deploying the contracts with the account:",
+      "Deploying the contracts with the account: ",
       await deployer.getAddress()
     );
   
-    console.log("Account balance:", (await deployer.getBalance()).toString());
-  
-    const Crowdfunding = await ethers.getContractFactory("CrowdfundingProjects");
+    console.log("Account balance: ", (await deployer.getBalance()).toString());
+// shows how much ether the address has
+// first contact we make with the solidity file
+    const Crowdfunding = await ethers.getContractFactory("CrowdfundingProjects"); // we deploy the solidity and return the actual deployed block?
     const crowdfunding = await Crowdfunding.deploy();
     await crowdfunding.deployed();
   
-    console.log("crowdfunding address:", crowdfunding.address);
+    console.log("Crowdfunding address: ", crowdfunding.address);
   
     // We also save the contract's artifacts and address in the frontend directory
     saveFrontendFiles(crowdfunding);
