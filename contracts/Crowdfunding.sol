@@ -29,6 +29,9 @@ contract CrowdfundingProjects {
         uint256 _deadline,
         uint256 _fundingGoal
     ) external payable {
+        require(
+            _deadline > block.timestamp, "The deadline should be after today's date"
+        );
         Project memory project; // memory is used to hold temporary values, cheaper to use
         project.projectName = _name;
         project.deadline = _deadline;
