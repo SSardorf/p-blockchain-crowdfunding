@@ -28,6 +28,7 @@ function App() {
             CROWDFUNDING.abi,
             ADDRESS.crowdfunding
         );
+        const allProjects = await crowdfunding.methods.getArr().call();
         setAccount(account);
         setCrowdfunding(crowdfunding);
         setWeb3(web3);
@@ -41,6 +42,15 @@ function App() {
         const newDonation = await crowdfunding.methods.newDonation(project_index).send({from: account, value: web3.utils.toWei(donationAmount, "ether")});
         getAllProjects();
     }
+
+    function convertUnixToDate(deadline){
+        var date = new Date(deadline*1000)
+        var shortDate = String(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());
+        return shortDate;
+    }
+
+
+
 
     const [account, setAccount] = useState("");
     const [crowdfunding, setCrowdfunding] = useState("");
