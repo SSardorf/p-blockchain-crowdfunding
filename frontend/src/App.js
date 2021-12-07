@@ -29,6 +29,7 @@ function App() {
             ADDRESS.crowdfunding
         );
         const allProjects = await crowdfunding.methods.getArr().call();
+        // Set states to be able to interact with web3 elements in other functions
         setAccount(account);
         setCrowdfunding(crowdfunding);
         setWeb3(web3);
@@ -36,15 +37,26 @@ function App() {
         return account, allProjects;
     }
 
-    async function addDonation(project_index){
+    async function addDonation(project_index) {
         let donationAmount = prompt("Enter donation amount");
-        const newDonation = await crowdfunding.methods.newDonation(project_index).send({from: account, value: web3.utils.toWei(donationAmount, "ether")});
+        const newDonation = await crowdfunding.methods
+            .newDonation(project_index)
+            .send({
+                from: account,
+                value: web3.utils.toWei(donationAmount, "ether"),
+            });
         getAllProjects();
     }
 
-    function convertUnixToDate(deadline){
-        var date = new Date(deadline*1000)
-        var shortDate = String(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());
+    function convertUnixToDate(deadline) {
+        var date = new Date(deadline * 1000);
+        var shortDate = String(
+            date.getDate() +
+                "/" +
+                (date.getMonth() + 1) +
+                "/" +
+                date.getFullYear()
+        );
         return shortDate;
     }
 
@@ -74,11 +86,39 @@ function App() {
                             <div className="bg-gray-100 text-grey-500 rounded m-4 p-4">
                                 <p className="">Creator: {project.creator}</p>
                                 <p>Projectname: {project.projectName}</p>
-                                <p>Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
-                                <p>Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
-                                <p>Deadline: {convertUnixToDate(project.deadline)}</p>
-                                {project.fundingGoal==project.currentFunding ? <button className="bg-gray-400 p-2 rounded-md "> FUNDED! </button> : <button onClick={()=>addDonation(index)} className="bg-green-400 p-2 rounded-md "> Donate! </button>}
-
+                                <p>
+                                    Funding:
+                                    {web3.utils.fromWei(
+                                        String(project.currentFunding),
+                                        "ether"
+                                    )}
+                                    <span className="font-bold"> Ξ</span>
+                                </p>
+                                <p>
+                                    Goal:
+                                    {web3.utils.fromWei(
+                                        String(project.fundingGoal),
+                                        "ether"
+                                    )}
+                                    <span className="font-bold"> Ξ</span>
+                                </p>
+                                <p>
+                                    Deadline:
+                                    {convertUnixToDate(project.deadline)}
+                                </p>
+                                {project.fundingGoal ==
+                                project.currentFunding ? (
+                                    <button className="bg-gray-400 p-2 rounded-md ">
+                                        FUNDED!
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => addDonation(index)}
+                                        className="bg-green-400 p-2 rounded-md "
+                                    >
+                                        Donate!
+                                    </button>
+                                )}
                             </div>
                         </div>
                     );
