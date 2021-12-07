@@ -32,7 +32,6 @@ function App() {
         setAccount(account);
         setCrowdfunding(crowdfunding);
         setWeb3(web3);
-        const allProjects = await crowdfunding.methods.getArr().call();
         setAllProjects(allProjects);
         return account, allProjects;
     }
@@ -79,7 +78,7 @@ function App() {
                                 <p>Projectname: {project.projectName}</p>
                                 <p>Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
                                 <p>Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
-                                <p>Deadline: {project.deadline}</p>
+                                <p>Deadline: {convertUnixToDate(project.deadline)}</p>
                                 {project.fundingGoal==project.currentFunding ? <button className="bg-gray-400 p-2 rounded-md "> FUNDED! </button> : <button onClick={()=>addDonation(index)} className="bg-green-400 p-2 rounded-md "> Donate! </button>}
 
                             </div>
