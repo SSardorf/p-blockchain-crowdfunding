@@ -29,7 +29,6 @@ function App() {
             ADDRESS.crowdfunding
         );
         const allProjects = await crowdfunding.methods.getArr().call();
-        // Set states to be able to interact with web3 elements in other functions
         setAccount(account);
         setCrowdfunding(crowdfunding);
         setWeb3(web3);
@@ -37,26 +36,15 @@ function App() {
         return account, allProjects;
     }
 
-    async function addDonation(project_index) {
+    async function addDonation(project_index){
         let donationAmount = prompt("Enter donation amount");
-        const newDonation = await crowdfunding.methods
-            .newDonation(project_index)
-            .send({
-                from: account,
-                value: web3.utils.toWei(donationAmount, "ether"),
-            });
+        const newDonation = await crowdfunding.methods.newDonation(project_index).send({from: account, value: web3.utils.toWei(donationAmount, "ether")});
         getAllProjects();
     }
 
-    function convertUnixToDate(deadline) {
-        var date = new Date(deadline * 1000);
-        var shortDate = String(
-            date.getDate() +
-                "/" +
-                (date.getMonth() + 1) +
-                "/" +
-                date.getFullYear()
-        );
+    function convertUnixToDate(deadline){
+        var date = new Date(deadline*1000)
+        var shortDate = String(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());
         return shortDate;
     }
 
@@ -76,55 +64,30 @@ function App() {
     }, []);
 
     return (
-        <div className="App h-full">
-            <h1 className="text-5xl">Blockchain Crowdfunding</h1>
-            <h2 className="text-2xl">Hello, {account}</h2>
+        <div className="App h-screen">
+            <h1 className="text-5xl m-4">Blockchain Crowdfunding</h1>
+            <h2 className="text-2xl m-4">Hello, {account}</h2>
             <div className="flex flex-wrap w-full">
                 {allProjects.map((project, index) => {
                     return (
-                        <div key={index} className="w-1/2 ">
-                            <div className="bg-gray-100 text-grey-500 rounded m-4 p-4">
-                                <p className="">Creator: {project.creator}</p>
-                                <p>Projectname: {project.projectName}</p>
-                                <p>
-                                    Funding:
-                                    {web3.utils.fromWei(
-                                        String(project.currentFunding),
-                                        "ether"
-                                    )}
-                                    <span className="font-bold"> Ξ</span>
-                                </p>
-                                <p>
-                                    Goal:
-                                    {web3.utils.fromWei(
-                                        String(project.fundingGoal),
-                                        "ether"
-                                    )}
-                                    <span className="font-bold"> Ξ</span>
-                                </p>
-                                <p>
-                                    Deadline:
-                                    {convertUnixToDate(project.deadline)}
-                                </p>
-                                {project.fundingGoal ==
-                                project.currentFunding ? (
-                                    <button className="bg-gray-400 p-2 rounded-md ">
-                                        FUNDED!
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={() => addDonation(index)}
-                                        className="bg-green-400 p-2 rounded-md "
-                                    >
-                                        Donate!
-                                    </button>
-                                )}
+                        <div key={index} className="relative w-1/5 rounded m-4 shadow-lg">
+                            <div key={index} className="">
+                                <div className="bg-pastel-green text-grey-500 rounded p-4">
+                                    <p className="mx-2 py-2 border-b-2 border-gray-500 text-center text-gray-700 font-semibold uppercase">{project.projectName}</p>
+                                    <p className="break-all text-gray-700"> Creator: <span className="text-sm">{project.creator}</span></p>
+                                    <p className="text-gray-700"> Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
+                                    <p className="text-gray-700"> Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
+                                    <p className="text-gray-700 mb-4"> Deadline: {convertUnixToDate(project.deadline)}</p>
+                                    {project.fundingGoal==project.currentFunding ? <button className="bg-gray-400 p-2 rounded-md "> FUNDED! </button> : <button onClick={()=>addDonation(index)} className="bg-green p-2 rounded-md hover:bg-dark-green"> Donate! </button>}
+
+                                </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
-            <form className="flex flex-col w-1/3 content-center">
+
+            <form className="flex flex-col w-1/3 rounded mt-10 content-center bg-gray-50">
                 <div className="rounded m-4 p-4">
                     <div class="md:flex md:items-center">
                         <div class="md:w-1/3">
@@ -154,6 +117,7 @@ function App() {
                                 id="inline-goal"
                                 type="number"
                                 name="fundingGoal"
+                                placeholder="Amount in ETH"
                                 onChange={(e) => setFundingGoal(e.target.value)}
                             />
                         </div>
@@ -183,7 +147,7 @@ function App() {
                     <div className="w-full">
                         <button
                             type="button"
-                            className="bg-green-300 p-2 rounded-md m-auto"
+                            className="bg-gray-300 p-2 rounded-md m-auto hover:bg-gray-500"
                             onClick={() =>
                                 createProject(projectName, fundingGoal, deadline)
                             }>
