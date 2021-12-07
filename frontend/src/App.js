@@ -8,7 +8,7 @@ function App() {
         const projects = await crowdfunding.methods.getArr().call();
         setAllProjects(projects);
     }
-    async function createProject(name, goal, deadline) {
+    async function createProject(name, deadline, goal) {
         const newProject = await crowdfunding.methods
             .createProject(name, goal, deadline)
             .send({ from: account });
@@ -21,18 +21,14 @@ function App() {
         const network = await web3.eth.net.getNetworkType();
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
-        console.log(network);
-        console.log(accounts);
         const crowdfunding = new web3.eth.Contract(
             CROWDFUNDING.abi,
             ADDRESS.crowdfunding
         );
-        console.log();
-        const allProjects = await crowdfunding.methods.getArr().call();
-        console.log(account);
         setAccount(account);
-        setAllProjects(allProjects);
         setCrowdfunding(crowdfunding);
+        const allProjects = await crowdfunding.methods.getArr().call();
+        setAllProjects(allProjects);
         return account, allProjects;
     }
 
@@ -47,7 +43,7 @@ function App() {
         // Update the document title using the browser API
         console.log(CROWDFUNDING.abi);
         console.log(ADDRESS.crowdfunding);
-        loadBlockchainData(setAccount, setAllProjects, setCrowdfunding);
+        loadBlockchainData();
     }, []);
 
     return (
