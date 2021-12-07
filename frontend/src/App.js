@@ -10,7 +10,7 @@ function App() {
     }
     async function createProject(name, goal, deadline) {
         const newProject = await crowdfunding.methods
-            .createProject(name, goal, deadline)
+            .createProject(name, deadline, goal)
             .send({ from: account });
         getAllProjects();
     }
@@ -27,7 +27,6 @@ function App() {
             CROWDFUNDING.abi,
             ADDRESS.crowdfunding
         );
-        console.log();
         const allProjects = await crowdfunding.methods.getArr().call();
         console.log(account);
         setAccount(account);
@@ -35,6 +34,15 @@ function App() {
         setCrowdfunding(crowdfunding);
         return account, allProjects;
     }
+
+    function convertUnixToDate(deadline){
+        var date = new Date(deadline*1000)
+        var shortDate = String(date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear());
+        return shortDate;
+    }
+
+
+
 
     const [account, setAccount] = useState("");
     const [crowdfunding, setCrowdfunding] = useState("");
@@ -59,10 +67,10 @@ function App() {
                         <div key={index} className="w-1/2 ">
                             <div className="bg-gray-100 m-4 p-4">
                                 <p className="">Creator: {project.creator}</p>
-                                <p>Projectname: {project.projectName}</p>
+                                <p>Project name: {project.projectName}</p>
                                 <p>Funding: {project.currentFunding}</p>
                                 <p>Goal: {project.fundingGoal}</p>
-                                <p>Deadline: {project.deadline}</p>
+                                <p>Deadline: {convertUnixToDate(project.deadline)}</p>
                                 <button className="bg-green-300 p-2 rounded-md">
                                     Donate
                                 </button>
