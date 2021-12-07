@@ -8,9 +8,12 @@ function App() {
         const projects = await crowdfunding.methods.getArr().call();
         setAllProjects(projects);
     }
-    async function createProject(name, deadline, goal) {
+    async function createProject(name, goal, deadline) {
+        //convert goal from wei to ether
+        const goalInEther = web3.utils.toWei(String(goal), "ether");
+        console.log(goalInEther);
         const newProject = await crowdfunding.methods
-            .createProject(name, goal, deadline)
+            .createProject(name, deadline, goalInEther)
             .send({ from: account });
         getAllProjects();
     }
@@ -27,9 +30,16 @@ function App() {
         );
         setAccount(account);
         setCrowdfunding(crowdfunding);
+        setWeb3(web3);
         const allProjects = await crowdfunding.methods.getArr().call();
         setAllProjects(allProjects);
         return account, allProjects;
+    }
+
+    async function addDonation(project_index){
+        let donationAmount = prompt("Enter donation amount");
+        const newDonation = await crowdfunding.methods.newDonation(project_index).send({from: account, value: web3.utils.toWei(donationAmount, "ether")});
+        getAllProjects();
     }
 
     const [account, setAccount] = useState("");
@@ -38,6 +48,7 @@ function App() {
     const [projectName, setProjectName] = useState("");
     const [fundingGoal, setFundingGoal] = useState("");
     const [deadline, setDeadline] = useState("");
+    const [web3, setWeb3] = useState("");
 
     useEffect(() => {
         // Update the document title using the browser API
@@ -56,12 +67,11 @@ function App() {
                             <div className="bg-gray-100 m-4 p-4">
                                 <p className="">Creator: {project.creator}</p>
                                 <p>Projectname: {project.projectName}</p>
-                                <p>Funding: {project.currentFunding}</p>
-                                <p>Goal: {project.fundingGoal}</p>
+                                <p>Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
+                                <p>Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
                                 <p>Deadline: {project.deadline}</p>
-                                <button className="bg-green-300 p-2 rounded-md">
-                                    Donate
-                                </button>
+                                {project.fundingGoal==project.currentFunding ? <button className="bg-gray-400 p-2 rounded-md "> FUNDED! </button> : <button onClick={()=>addDonation(index)} className="bg-green-400 p-2 rounded-md "> Donate! </button>}
+
                             </div>
                         </div>
                     );
