@@ -10,13 +10,20 @@ module.exports = {
       'indigo-dark': '#202e78',
       'white': colors.white,
       'gray': colors.gray,
-      'green': '#83D475',
+      'blue': colors.blue,
+      'green': colors.green, 
+      'purple': colors.purple,
+      'black': colors.black,
+      'pink': colors.pink,
+      'light-blue': '#0DC5E1',
       'dark-green': '#2EB62C',
     },
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
