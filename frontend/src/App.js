@@ -64,7 +64,8 @@ function App() {
     }, []);
 
     return (
-        <div className="App min-h-screen bg-gradient-to-r from-blue-800 to-purple-600">
+        <div className="App min-h-screen bg-gradient-to-r from-blue-800 to-purple-600 via-green-500 animate-gradient-x">
+        
             <h1 className="font-extrabold text-transparent ml-4 text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"> Blockchain Crowdfunding</h1>
             <h2 className="text-2xl m-4 text-white">Hello, {account}</h2>
             <div className="flex overflow-x-auto space-x-8 mt-6">
@@ -94,6 +95,7 @@ function App() {
             </div>
 
             <form className="flex m-4 flex-col w-1/4 rounded mt-6 content-center bg-gray-50">
+            
                 <div className="rounded p-4">
                     <p className="py-2 m-2 border-b-2 border-black text-center text-black font-semibold uppercase"> Set up your next crowdfunding project here </p>
                     <div class="md:flex md:items-center">
