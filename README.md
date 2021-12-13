@@ -43,7 +43,7 @@ When running this command, a list of available test accounts will be displayed. 
 5. Open another terminal tab and go to the frontend directory `cd frontend/`. 
 
 6. Run the following command:  
-`npm run dev` (If this command does not work, you may have to run `npm install` in this directory first)
+`npm start` (If this command does not work, you may have to run `npm install` in this directory first)
 
 7. Now frontend should be running on port 3000. https://localhost:3000/
 
