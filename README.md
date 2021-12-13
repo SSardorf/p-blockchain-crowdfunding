@@ -1,5 +1,7 @@
 # Decentralized Crowdfunding Platform Driven by Blockchain
 
+Final Project for Blockchain, Cryptocurrencies and Smart Contracts 2021 Course at Copenhagen Business School.
+
 Crowdfunding dApp provides a novel way of funding a project by raising cryptocurrency donations from contributors via public ethereum blockchain technology without the need for any middleman to manage the data flows. 
 
 
