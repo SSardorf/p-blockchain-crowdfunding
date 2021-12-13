@@ -64,24 +64,24 @@ function App() {
     }, []);
 
     return (
-        <div className="App min-h-screen bg-gradient-to-r from-blue-800 to-purple-600 via-green-500 animate-gradient-x">
+        <div className="min-h-screen App bg-gradient-to-r from-blue-800 to-purple-600 via-green-500 animate-gradient-x">
 
-            <h1 className="font-extrabold text-transparent ml-4 text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"> Blockchain Crowdfunding</h1>
-            <h2 className="text-2xl m-4 text-white">Hello, {account}</h2>
-            <div className="flex overflow-x-auto space-x-8 mt-6">
+            <h1 className="ml-4 font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"> Blockchain Crowdfunding</h1>
+            <h2 className="m-4 text-2xl text-white">Hello, {account}</h2>
+            <div className="flex mt-6 space-x-8 overflow-x-auto">
                 {allProjects.map((project, index) => {
                     return (
-                        <div key={index} className="flex-shrink-0 relative w-1/5 rounded m-4 shadow-lg">
+                        <div key={index} className="relative flex-shrink-0 w-1/5 m-4 rounded shadow-lg">
                             <div key={index} className="">
-                                <div className="flex-shrink-0 bg-black text-white rounded p-4 transform transition duration-500 hover:scale-105">
-                                    <p className="py-2 border-b-2 border-white text-center text-white font-semibold uppercase">{project.projectName}</p>
-                                    <p className="break-all text-white"> Creator: <span className="text-sm">{project.creator}</span></p>
+                                <div className="flex-shrink-0 p-4 text-white transition duration-500 transform bg-black rounded hover:scale-105">
+                                    <p className="py-2 font-semibold text-center text-white uppercase border-b-2 border-white">{project.projectName}</p>
+                                    <p className="text-white break-all"> Creator: <span className="text-sm">{project.creator}</span></p>
                                     <p className="text-white"> Funding: {web3.utils.fromWei(String(project.currentFunding), "ether")}</p>
                                     <p className="text-white"> Goal: {web3.utils.fromWei(String(project.fundingGoal), "ether")}</p>
-                                    <p className="text-white mb-4 border-b-2 border-white"> Deadline: {convertUnixToDate(project.deadline)}</p>
-                                    {project.fundingGoal == project.currentFunding ? <button className="text-gray-400 p-2 rounded-md cursor-not-allowed "> FUNDED! </button>
-                                        : <button onClick={() => addDonation(index)} className="items-left flex p-2 rounded-md h-100 hover:text-light-blue ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <p className="mb-4 text-white border-b-2 border-white"> Deadline: {convertUnixToDate(project.deadline)}</p>
+                                    {project.fundingGoal == project.currentFunding ? <button className="p-2 text-gray-400 rounded-md cursor-not-allowed "> FUNDED! </button>
+                                        : <button onClick={() => addDonation(index)} className="flex p-2 rounded-md items-left h-100 hover:text-light-blue ">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                             </svg>
                                             Donate!
@@ -94,20 +94,20 @@ function App() {
                 })}
             </div>
 
-            <form className="flex m-4 flex-col w-1/4 rounded mt-6 content-center bg-gray-50">
+            <form className="flex flex-col content-center w-1/4 m-4 mt-6 rounded bg-gray-50">
 
-                <div className="rounded p-4">
+                <div className="p-4 rounded">
 
-                    <p className="py-2 m-2 border-b-2 border-black text-center text-black font-semibold uppercase"> Set up your next crowdfunding project here </p>
+                    <p className="py-2 m-2 font-semibold text-center text-black uppercase border-b-2 border-black"> Set up your next crowdfunding project here </p>
                     <div className="md:flex md:items-center">
                         <div className="md:w-1/3">
-                            <label className="block text-black md:text-right mb-1 md:mb-0 pr-4">
+                            <label className="block pr-4 mb-1 text-black md:text-right md:mb-0">
                                 Project name:
                             </label>
                         </div>
                         <div className="md:w-2/3 md:mb-3">
                             <input
-                                className="form-input bg-gray-100 appearance-none border-2 border-gray-100 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-100 border-2 border-gray-100 rounded appearance-none form-input focus:outline-none focus:bg-white focus:border-purple-500"
                                 id="inline-project-name"
                                 type="text"
                                 name="projectname"
@@ -118,12 +118,12 @@ function App() {
                     </div>
                     <div className="md:flex md:items-center">
                         <div className="md:w-1/3">
-                            <label className="block text-black md:text-right mb-1 md:mb-0 pr-4">
+                            <label className="block pr-4 mb-1 text-black md:text-right md:mb-0">
                                 Goal:
                             </label>
                         </div>
                         <div className="md:w-2/3 md:mb-3">
-                            <input className="form-input bg-gray-100 appearance-none border-2 border-gray-100 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                            <input className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-100 border-2 border-gray-100 rounded appearance-none form-input focus:outline-none focus:bg-white focus:border-purple-500"
                                 id="inline-goal"
                                 type="number"
                                 name="fundingGoal"
@@ -133,15 +133,15 @@ function App() {
                         </div>
                     </div>
 
-                    <div className="md:flex md:items-center mb-6">
+                    <div className="mb-6 md:flex md:items-center">
                         <div className="md:w-1/3">
-                            <label className="block text-black md:text-right mb-1 md:mb-0 pr-4" for="inline-deadline">
+                            <label className="block pr-4 mb-1 text-black md:text-right md:mb-0" for="inline-deadline">
                                 Deadline:
                             </label>
                         </div>
                         <div className="md:w-2/3">
                             <input
-                                className="form-input bg-gray-100 appearance-none border-2 border-gray-100 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-100 border-2 border-gray-100 rounded appearance-none form-input focus:outline-none focus:bg-white focus:border-purple-500"
                                 id="inline-deadline"
                                 type="date"
                                 name="deadline"
@@ -157,7 +157,7 @@ function App() {
                     <div className="w-full">
                         <button
                             type="button"
-                            className="flex w-full border-purple-400 items-center justify-center p-2 rounded-full m-auto text-white bg-black hover:bg-light-blue"
+                            className="flex items-center justify-center w-full p-2 m-auto text-white bg-black border-purple-400 rounded-full hover:bg-light-blue"
                             onClick={() =>
                                 createProject(projectName, fundingGoal, deadline)
                             }>
@@ -167,15 +167,15 @@ function App() {
                 </div>
 
             </form>
-            <button className="absolute bottom-0 right-0 p-4" href="https://github.com/SSardorf/p-blockchain-crowdfunding">
+            <a className="absolute bottom-0 right-0 p-4" href="https://github.com/SSardorf/p-blockchain-crowdfunding">
 
                 <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                    className="w-10 h-10 text-white fill-current text-center">
+                    className="w-10 h-10 text-center text-white fill-current">
                     <title>GitHub repository</title>
                     <path
                         d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                 </svg>
-            </button>
+            </a>
         </div>
     );
 }
