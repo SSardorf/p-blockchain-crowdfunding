@@ -12,17 +12,38 @@ When a new project is created, the CC will give it a title, a deadline, and a fu
 
 
 
-### Hardhat Note
-This project demonstrates a Hardhat use case. It comes with a contract, a test for that contract, a script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+## Installation Instructions
+Before you start:
+* Make sure that you have [NPM](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) installed.
+* Setup the [metamask](https://metamask.io/) extension.
 
-Simple hardhat tasks:
+1. Navigate into the project directory and run the following command:
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+    `npm install`
+
+    This will install the packages needed for the project.
+
+2. Afterwards, you can run the following commands to make sure that Hardhat is configured correctly:
+    ```shell
+    npx hardhat accounts
+    npx hardhat compile
+    ```
+
+3. If it compiles correctly, we can start the project.
+Run the following command in one terminal tab:
+
+    `npx hardhat node --network localhost`
+When running this command, a list of available test accounts will be displayed. Select any account that you want to use for the project. Take the private key of the account and set it up in the metamask extension. Once this is done, you should be able to see it has 1000 ETH in the account.
+
+
+4. Open a second terminal tab and run the following command:
+    
+    `npx hardhat run scripts/deploy.js`
+
+5. Open another terminal tab and go to the frontend directory `cd frontend/`. 
+
+6. Run the following command:  
+`npm run dev` (If this command does not work, you may have to run `npm install` in this directory first)
+
+7. Now frontend should be running on port 3000. https://localhost:3000/
+
