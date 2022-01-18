@@ -32,13 +32,13 @@ Before you start:
 3. If it compiles correctly, we can start the project.
 Run the following command in one terminal tab:
 
-    `npx hardhat node --network localhost`
+    `npx hardhat node`
 When running this command, a list of available test accounts will be displayed. Select any account that you want to use for the project. Take the private key of the account and set it up in the metamask extension. Once this is done, you should be able to see it has 1000 ETH in the account.
 
 
 4. Open a second terminal tab and run the following command:
     
-    `npx hardhat run scripts/deploy.js`
+    `npx hardhat run scripts/deploy.js --network localhost`
 
 5. Open another terminal tab and go to the frontend directory `cd frontend/`. 
 
